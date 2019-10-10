@@ -32,16 +32,6 @@ public class CameraMovementController : MonoBehaviour {
     }
 
 
-    public void toggleModelFlag(){
-        if(modelFlag){
-            pointController.clearList();
-            modelFlag = false;
-        }else{
-            modelFlag = true;
-            
-        }
-    }
-
     public Vector3 snapPostionChange(Vector3 realPos)
     {
         Vector3 changedPos;

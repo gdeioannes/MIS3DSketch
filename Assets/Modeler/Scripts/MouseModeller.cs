@@ -44,6 +44,10 @@ public class MouseModeller : MonoBehaviour {
     private Vector3 saveWhiteBallPos;
     private bool saveWhiteBallPosFlag;
 
+    public GameObject pointsObject;
+    public GameObject planeObjects;
+    public Text objectTextBtns;
+
     // Use this for initialization
     void Start () {
         whiteBall.SetActive(false);
@@ -84,6 +88,10 @@ public class MouseModeller : MonoBehaviour {
             PointController.instance.addPoint(whiteBall.transform.position);
         }
 
+        if (modelAirFlag && Input.touchCount == 0)
+        {
+            PointController.instance.clearList();
+        }
     }
 
     void modelAnchorAir()
@@ -93,6 +101,7 @@ public class MouseModeller : MonoBehaviour {
             //Anchor logic
             if (!saveWhiteBallPosFlag)
             {
+                PointController.instance.clearList();
                 saveWhiteBallPos = whiteBall.transform.position;
                 saveWhiteBallPosFlag = true;
             }
@@ -103,6 +112,7 @@ public class MouseModeller : MonoBehaviour {
         if (modelAirFlag && Input.touchCount==0)
         {
             saveWhiteBallPosFlag = false;
+            PointController.instance.clearList();
         }
     }
 
@@ -113,6 +123,7 @@ public class MouseModeller : MonoBehaviour {
             Vector3 touchPos = firstPersonCamera.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y,0.3f));
             PointController.instance.addPoint(touchPos);
         }
+
     }
 
     private void modelAnchorTouch()
@@ -122,6 +133,7 @@ public class MouseModeller : MonoBehaviour {
             //Anchor logic
             if (!saveWhiteBallPosFlag)
             {
+                PointController.instance.clearList();
                 saveWhiteBallPos = firstPersonCamera.ScreenToWorldPoint(new Vector3(Input.GetTouch(0).position.x, Input.GetTouch(0).position.y, 0.3f));
                 saveWhiteBallPosFlag = true;
             }
@@ -131,6 +143,7 @@ public class MouseModeller : MonoBehaviour {
 
         if (modelTouchFlag && Input.touchCount == 0)
         {
+            
             debugText.text = "Reset Pos Touch Model";
             saveWhiteBallPosFlag = false;
         }
@@ -342,6 +355,23 @@ public class MouseModeller : MonoBehaviour {
         selectedAnchor.GetComponent<Renderer>().material = anchorUnSelectMaterial;
         selectedAnchor = null;
     }
+
+    public void toggleObject()
+    {
+        if (pointsObject.activeSelf) {
+            pointsObject.SetActive(false) ;
+            planeObjects.SetActive(false);
+            objectTextBtns.text="Show Plane/points";
+        }
+        else
+        {
+            pointsObject.SetActive(true);
+            planeObjects.SetActive(true);
+            objectTextBtns.text = "Hide Plane/Points";
+        }
+        
+    }
+
 
     public void resetScene()
     {
